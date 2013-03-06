@@ -1,0 +1,35 @@
+<html>
+<head>
+<script>
+
+function send_command(cmd) {
+  var queryString = cmd;
+  var xhr = new XMLHttpRequest();
+  xhr.open("GET", "/?cmd=" + queryString, true)
+  xhr.onprogress = function () {
+    document.getElementById("output").innerHTML =  xhr.responseText;
+  }
+  xhr.send();
+
+};
+
+function submit_cmd()
+{
+  send_command(document.forms["command-form"]["command"].value);
+}
+</script>
+</head>
+<body>
+
+<label for="command-form">command: </label>
+<form id="command-form" name="command-form" action="#" onsubmit="submit_cmd();return false;">
+  <input type="text" name="command">
+  <input type="submit" value="Submit">
+</form>
+
+<pre id="output"> 
+hello
+</pre>
+
+</body>
+</html>
