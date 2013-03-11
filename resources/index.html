@@ -2,9 +2,10 @@
 <head>
 <script>
 
+var xhr = new XMLHttpRequest();
 function send_command(cmd) {
+  xhr.abort();
   var queryString = cmd;
-  var xhr = new XMLHttpRequest();
   xhr.open("GET", "/?cmd=" + queryString, true)
   xhr.onprogress = function () {
     document.getElementById("output").innerHTML =  xhr.responseText;
