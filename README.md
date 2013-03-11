@@ -9,6 +9,7 @@ HTTP streaming for shell command output.
 ```
 $ java -jar clj-stream-sh-0.0.1-SNAPSHOT-standalone.jar
 ```
+[download jar](http://dl.dropbox.com/u/27498455/clj-stream-sh-0.0.1-SNAPSHOT-standalone.jar)
 
 ### Use ###
 
