@@ -14,6 +14,9 @@
 (defn cmd [p]
   (.. Runtime getRuntime (exec (str p))))
 
+(defn stop-cmd [p]
+  (.destroy p))
+
 (defn cmdout [o] 
   (let [r (BufferedReader. 
             (InputStreamReader. 
@@ -21,14 +24,13 @@
     (line-seq r)))
 
 (defn stream-sh-output [ch, command]
-  (future
-    (dorun
-      (map #(enqueue ch (str % "\n"))
-           (cmdout (cmd command))))
-    (close ch))
-  {:status 200
-   :headers {"content-type" "text/plain"}
-   :body ch})
+  (future 
+    (let [process (cmd command)]
+      (on-closed ch #(stop-cmd process))
+      (enqueue ch (str (apply str (repeat 1024 "  ")) "\n")) ;hack for chrome
+      (dorun (map #(enqueue ch (str % "\n")) (cmdout process)))
+      (close ch)))
+    {:status 200 :headers {"content-type" "text/plain"} :body ch})
 
 (defn stream-html [ch filename]
   (let [html (io/resource filename)]
