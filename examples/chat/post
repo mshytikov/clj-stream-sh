@@ -1,0 +1,5 @@
+#!/bin/bash
+time=$(date +"[%T]")
+msg=$(dirname $0)/messages.txt
+echo "$time $*" >> $msg 
+tail -f  $msg
